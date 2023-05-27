@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
--- Host: localhost    Database: HR
+-- Host: localhost    Database: hr
 -- ------------------------------------------------------
 -- Server version	8.0.33
 
@@ -26,8 +26,11 @@ CREATE TABLE `employee` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `department` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1041 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `location_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `location_id` (`location_id`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`location_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +39,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1001,'John Doe','HR'),(1002,'Jane Smith','Finance'),(1003,'maria D','marketing'),(1004,'santa S','technical'),(1005,'sharukh K','Testing'),(1006,'Salman K','Operations'),(1007,'Andrea C','Management'),(1008,'Alia B','HR'),(1009,'Deepika P','Finace'),(1010,'Kiara M','Marketing'),(1011,'John Doe','HR'),(1012,'Jane Smith','Finance'),(1013,'maria D','marketing'),(1014,'santa S','technical'),(1015,'sharukh K','Testing'),(1016,'Salman K','Operations'),(1017,'Andrea C','Management'),(1018,'Alia B','HR'),(1019,'Deepika P','Finace'),(1020,'Kiara M','Marketing'),(1021,'John Doe','HR'),(1022,'Jane Smith','Finance'),(1023,'maria D','marketing'),(1024,'santa S','technical'),(1025,'sharukh K','Testing'),(1026,'Salman K','Operations'),(1027,'Andrea C','Management'),(1028,'Alia B','HR'),(1029,'Deepika P','Finace'),(1030,'Kiara M','Marketing'),(1031,'John Doe','HR'),(1032,'Jane Smith','Finance'),(1033,'maria D','marketing'),(1034,'santa S','technical'),(1035,'sharukh K','Testing'),(1036,'Salman K','Operations'),(1037,'Andrea C','Management'),(1038,'Alia B','HR'),(1039,'Deepika P','Finace'),(1040,'Kiara M','Marketing');
+INSERT INTO `employee` VALUES (11,'John Doe','HR',1),(12,'Jane Smith','Finance',2),(13,'maria D','marketing',3),(14,'santa S','technical',1),(15,'sharukh K','Testing',4),(16,'Salman K','Operations',5),(17,'Andrea C','Management',6),(18,'Alia B','HR',7),(19,'Deepika P','Finace',8),(20,'Kiara M','Marketing',7);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,11 +54,8 @@ CREATE TABLE `locations` (
   `location_id` int NOT NULL AUTO_INCREMENT,
   `city` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
-  `employee_id` int NOT NULL,
-  PRIMARY KEY (`location_id`),
-  KEY `employee_id` (`employee_id`),
-  CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`location_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'New York','USA',1001),(2,'London','UK',1002),(3,'Helsingborg','SWEDEN',1003),(4,'Bangalore','INDIA',1004),(5,'Helsinki','FINLAND',1005),(6,'Karachi','Pakistan',1006),(7,'Oslo','Norway',1007),(8,'New York','USA',1008),(9,'washington DC','USA',1009),(10,'Paris','France',1010);
+INSERT INTO `locations` VALUES (1,'New York','USA'),(2,'London','UK'),(3,'Helsingborg','SWEDEN'),(4,'Bangalore','INDIA'),(5,'Helsinki','FINLAND'),(6,'Karachi','Pakistan'),(7,'Oslo','Norway'),(8,'New York','USA'),(9,'washington DC','USA'),(10,'Paris','France'),(11,'New York','USA'),(12,'London','UK'),(13,'Helsingborg','SWEDEN'),(14,'Bangalore','INDIA'),(15,'Helsinki','FINLAND'),(16,'Karachi','Pakistan'),(17,'Oslo','Norway'),(18,'New York','USA'),(19,'washington DC','USA'),(20,'Paris','France');
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -77,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-23 11:04:25
+-- Dump completed on 2023-05-27 14:38:11

@@ -29,30 +29,12 @@ con.query('USE HR', (err) => {
   console.log('Using HR database.');
 });
 
-// Create the employee table
-const createEmployeeTableQuery = `
-     CREATE TABLE IF NOT EXISTS employee (
-       id INT AUTO_INCREMENT PRIMARY KEY,
-       name VARCHAR(255) not null,
-       department VARCHAR(255) not null
-     )
-   `;
-con.query(createEmployeeTableQuery, (err) => {
-  if (err) {
-    console.error('Error creating the employee table:', err);
-    return;
-  }
-  console.log('Employee table created.');
-});
-
 // Create the locations table
 const createLocationsTableQuery = `
       CREATE TABLE IF NOT EXISTS locations (
         location_id INT AUTO_INCREMENT PRIMARY KEY,
         city VARCHAR(255),
-        country VARCHAR(255),
-        employee_id int not null,
-        FOREIGN KEY (employee_id) REFERENCES employee(id)
+        country VARCHAR(255)
       )
     `;
 con.query(createLocationsTableQuery, (err) => {
@@ -63,43 +45,38 @@ con.query(createLocationsTableQuery, (err) => {
   console.log('Locations table created.');
 });
 
-// Insert rows into the employee table
-const insertEmployeeQuery = `
-        INSERT INTO employee (name, department)
-        VALUES
-          ('John Doe', 'HR'),
-          ('Jane Smith', 'Finance'),
-          ('maria D', 'marketing'),
-          ('santa S', 'technical'),
-          ('sharukh K', 'Testing'),
-          ('Salman K', 'Operations'),
-          ('Andrea C', 'Management'),
-          ('Alia B', 'HR'),
-          ('Deepika P', 'Finace'),
-          ('Kiara M', 'Marketing')
-      `;
-con.query(insertEmployeeQuery, (err, results) => {
+// Create the employee table
+const createEmployeeTableQuery = `
+     CREATE TABLE IF NOT EXISTS employee (
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       name VARCHAR(255) not null,
+       department VARCHAR(255) not null,
+       location_id INT,
+          FOREIGN KEY (location_id) REFERENCES locations(location_id)
+     )
+   `;
+con.query(createEmployeeTableQuery, (err) => {
   if (err) {
-    console.error('Error inserting rows into the employee table:', err);
+    console.error('Error creating the employee table:', err);
     return;
   }
-  console.log('Rows inserted into the employee table:', results.affectedRows);
+  console.log('Employee table created.');
 });
 
 // Insert rows into the locations table
 const insertLocationsQuery = `
-  INSERT INTO locations (city, country, employee_id)
+  INSERT INTO locations (city, country)
   VALUES
-    ('New York', 'USA', 1001),
-    ('London', 'UK', 1002),
-    ('Helsingborg', 'SWEDEN', 1003),
-    ('Bangalore', 'INDIA', 1004),
-    ('Helsinki', 'FINLAND', 1005),
-    ('Karachi', 'Pakistan', 1006),
-    ('Oslo', 'Norway', 1007),
-    ('New York', 'USA', 1008),
-    ('washington DC', 'USA', 1009),
-    ('Paris', 'France', 1010)
+    ('New York', 'USA'),
+    ('London', 'UK'),
+    ('Helsingborg', 'SWEDEN'),
+    ('Bangalore', 'INDIA'),
+    ('Helsinki', 'FINLAND'),
+    ('Karachi', 'Pakistan'),
+    ('Oslo', 'Norway'),
+    ('New York', 'USA'),
+    ('washington DC', 'USA'),
+    ('Paris', 'France')
 
 `;
 con.query(insertLocationsQuery, (err, results) => {
@@ -108,6 +85,29 @@ con.query(insertLocationsQuery, (err, results) => {
     return;
   }
   console.log('Rows inserted into the locations table:', results.affectedRows);
+});
+
+// Insert rows into the employee table
+const insertEmployeeQuery = `
+        INSERT INTO employee (name, department, location_id)
+        VALUES
+          ('John Doe', 'HR', 1),
+          ('Jane Smith', 'Finance', 2),
+          ('maria D', 'marketing', 3),
+          ('santa S', 'technical', 1),
+          ('sharukh K', 'Testing', 4),
+          ('Salman K', 'Operations', 5),
+          ('Andrea C', 'Management', 6),
+          ('Alia B', 'HR', 7),
+          ('Deepika P', 'Finace', 8),
+          ('Kiara M', 'Marketing', 7)
+      `;
+con.query(insertEmployeeQuery, (err, results) => {
+  if (err) {
+    console.error('Error inserting rows into the employee table:', err);
+    return;
+  }
+  console.log('Rows inserted into the employee table:', results.affectedRows);
 });
 
 // Close the database connection
