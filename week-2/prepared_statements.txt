@@ -1,0 +1,5 @@
+SELECT city.Name FROM city INNER JOIN country ON city.ID = country.Capital where country.Name= ?
+select DISTINCT Language, region from country c join countrylanguage cl on c.code=cl.CountryCode where region = ?
+select count(ct.name) as cities ,cl.Language from countrylanguage cl join city ct using(countrycode) where Language= ? 
+select c.Continent , count(DISTINCT cl.Language) as numberoflanguage from country c join countrylanguage cl on c.code= cl.CountryCode GROUP BY c.Continent
+select c2.Name as CountryName, cl2.Language from country c1 join country c2 ON c1.Continent = c2.Continent join countrylanguage cl1 on c1.Code = cl1.CountryCode join countrylanguage cl2 on c2.Code = cl2.CountryCode where c1.Name = ? and c2.Name != ? and cl1.Language = cl2.Language
