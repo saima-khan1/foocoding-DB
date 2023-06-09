@@ -5,12 +5,14 @@ This is a simple Node.js application that demonstrates how to use MySQL with pre
 ## Installation
 
 1. Clone the repository:
-   git clone <repository_url>
+   git clone <https://github.com/saima-khan1/foocoding-DB.git>
 
-2. Install the dependencies:
+2. Navigate to directory: /foocoding-DB/tree/main/week-3
+
+3. Install the dependencies:
    npm install
 
-3. Set up the MySQL database:
+4. Set up the MySQL database:
    - Create a new database in your MySQL server.
    - Update the database configuration in the app.js file by modifying the createPool options to match your database configuration.
    - Import the database schema from a SQL dump file "todo_app_dump.sql". You can use the following command to import the schema:
