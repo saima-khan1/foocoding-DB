@@ -7,7 +7,7 @@ This is a simple Node.js application that demonstrates how to use MySQL with pre
 1. Clone the repository:
    git clone <https://github.com/saima-khan1/foocoding-DB.git>
 
-2. Navigate to directory: /foocoding-DB/tree/main/week-3
+2. Navigate to directory: foocoding-DB/week-3 find the supporting project files.
 
 3. Install the dependencies:
    npm install
