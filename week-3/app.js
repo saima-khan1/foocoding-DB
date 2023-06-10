@@ -74,10 +74,10 @@ app.delete('/api/lists/:id', async (req, res) => {
 
 // API endpoint to create new Create a new ToDo list
 app.post('/api/items', async (req, res) => {
-  const { item_id, item_name, list_id, is_completed, reminder_date } = req.body;
+  const { item_id, item_name, list_id, is_completed } = req.body;
 
   const sql =
-    'INSERT INTO ToDoItem (item_id, item_name, list_id, is_completed, reminder_date) VALUES (?, ?, ?, ?, ?)';
+    'INSERT INTO ToDoItem (item_id, item_name, list_id, is_completed) VALUES (?, ?, ?, ?)';
   try {
     const connection = await pool.getConnection();
     const [rows] = await connection.execute(sql, [
@@ -85,7 +85,6 @@ app.post('/api/items', async (req, res) => {
       item_name,
       list_id,
       is_completed,
-      reminder_date,
     ]);
     connection.release();
     res.send('Item(s) inserted successfully');
