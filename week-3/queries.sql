@@ -13,3 +13,9 @@ INSERT INTO ToDoItem (item_id, item_name, list_id, is_completed) VALUES (?, ?, ?
 DELETE FROM ToDoItem WHERE item_id = ?;
 UPDATE ToDoItem SET is_completed = true WHERE item_id = ?;
 UPDATE ToDoList SET reminder_date = ? WHERE list_id = ?;
+INSERT INTO ToDoList (list_name, user_id ) VALUES (?, ?);
+INSERT INTO ToDoItem ( item_name, list_id, is_completed) VALUES ( ?, ?, ?);
+UPDATE ToDoItem SET is_completed = true WHERE item_id = ?;
+UPDATE ToDoList SET reminder_date = ? WHERE list_id = ?;
+UPDATE ToDoList SET reminder_date = ? WHERE list_id = ?;
+INSERT INTO ToDoList (list_name, user_id ) VALUES (?, ?);

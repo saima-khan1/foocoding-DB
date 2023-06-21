@@ -9,7 +9,7 @@ app.use(express.json());
 // Create a MySQL connection pool
 const pool = mysql.createPool({
   host: 'localhost',
-  user: 'root1',
+  user: 'root',
   password: 'Hamzaan06',
   database: 'todo_app',
 });
@@ -35,14 +35,14 @@ function saveQueries(queries) {
 
 // API endpoint to insert a new ToDo list
 app.post('/api/lists', async (req, res) => {
-  const { list_id, list_name, user_id } = req.body;
+  const { list_name, user_id} = req.body;
 
   const sql =
-    'INSERT INTO ToDoList (list_id, list_name, user_id) VALUES (?, ?, ?)';
+    'INSERT INTO ToDoList (list_name, user_id ) VALUES (?, ?)';
+    let connection;
   try {
-    const connection = await pool.getConnection();
-    const [rows] = await connection.execute(sql, [list_id, list_name, user_id]);
-    connection.release();
+    connection = await pool.getConnection();
+    const [rows] = await connection.execute(sql, [list_name, user_id]);
     res.send('List created successfully');
     const queries = loadQueries();
     queries.push(sql);
@@ -50,6 +50,10 @@ app.post('/api/lists', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error creating the list');
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 });
 
@@ -58,10 +62,10 @@ app.delete('/api/lists/:id', async (req, res) => {
   const listId = req.params.id;
 
   const sql = 'DELETE FROM ToDoList WHERE list_id = ?';
+  let connection;
   try {
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     const [rows] = await connection.execute(sql, [listId]);
-    connection.release();
     res.json({ message: 'List deleted successfully' });
     const queries = loadQueries();
     queries.push(sql);
@@ -69,24 +73,27 @@ app.delete('/api/lists/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error deleting the list');
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 });
 
 // API endpoint to create new Create a new ToDo list
 app.post('/api/items', async (req, res) => {
-  const { item_id, item_name, list_id, is_completed } = req.body;
+  const { item_name, list_id, is_completed } = req.body;
 
   const sql =
-    'INSERT INTO ToDoItem (item_id, item_name, list_id, is_completed) VALUES (?, ?, ?, ?)';
+    'INSERT INTO ToDoItem ( item_name, list_id, is_completed) VALUES ( ?, ?, ?)';
+    let connection;
   try {
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     const [rows] = await connection.execute(sql, [
-      item_id,
       item_name,
       list_id,
       is_completed,
     ]);
-    connection.release();
     res.send('Item(s) inserted successfully');
     const queries = loadQueries();
     queries.push(sql);
@@ -94,6 +101,10 @@ app.post('/api/items', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error inserting item(s)');
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 });
 
@@ -102,10 +113,10 @@ app.delete('/api/items/:id', async (req, res) => {
   const itemId = req.params.id;
 
   const sql = 'DELETE FROM ToDoItem WHERE item_id = ?';
+  let  connection;
   try {
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     const [rows] = await connection.execute(sql, [itemId]);
-    connection.release();
     res.send('Item(s) deleted successfully');
     const queries = loadQueries();
     queries.push(sql);
@@ -113,6 +124,10 @@ app.delete('/api/items/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error deleting item(s)');
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 });
 
@@ -121,10 +136,10 @@ app.put('/api/items/:id', async (req, res) => {
   const itemId = req.params.id;
 
   const sql = 'UPDATE ToDoItem SET is_completed = true WHERE item_id = ?';
+  let connection;
   try {
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     const [rows] = await connection.execute(sql, [itemId]);
-    connection.release();
     res.send('Item marked as completed successfully');
     const queries = loadQueries();
     queries.push(sql);
@@ -132,6 +147,10 @@ app.put('/api/items/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error marking item as completed');
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 });
 
@@ -141,10 +160,11 @@ app.put('/api/lists/:id', async (req, res) => {
   const { reminder_date } = req.body;
 
   const sql = 'UPDATE ToDoList SET reminder_date = ? WHERE list_id = ?';
+  let connection;
   try {
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     const [rows] = await connection.execute(sql, [reminder_date, listId]);
-    connection.release();
+    //connection.release();
     res.send('Reminder added for the list successfully');
     const queries = loadQueries();
     queries.push(sql);
@@ -152,6 +172,10 @@ app.put('/api/lists/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error adding reminder for the list');
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 });
 
